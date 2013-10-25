@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Prestashop-modules-cleanurls by Lebioda</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Prestashop-modules-cleanurls</h1>
+        <p>This override-Module allows you to remove URL IDs.</p>
+        <p class="view"><a href="https://github.com/Lebioda/PrestaShop-modules-CleanURLs">View the Project on GitHub <small>Lebioda/PrestaShop-modules-CleanURLs</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Lebioda/PrestaShop-modules-CleanURLs/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Lebioda/PrestaShop-modules-CleanURLs/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Lebioda/PrestaShop-modules-CleanURLs">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="readme" class="anchor" href="#readme"><span class="octicon octicon-link"></span></a>README</h1>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>ABOUT</h2>
+
+<p>This PrestaShop 1.5 module is based on <a href="https://github.com/Ha99y/PrestaShop-modules-CleanURLs">PrestaShop-modules-CleanURLs</a></p>
+
+<p>Thanks to original version you can delete IDs from all friendly links.
+This version gives additional possibility to use templates of links to achieve links like below:</p>
+
+<ul>
+<li>domain.com/product</li>
+<li>domain.com/parent_categories/category</li>
+<li>domain.com/category</li>
+<li>domain.com/manufacturer</li>
+<li>domain.com/supplier</li>
+<li>domain.com/cms</li>
+</ul><p>Just use {rewrite} for: products, manufacturer, supplier, cms. For category you can use the same or {parent_categories:/}{rewrite}.</p>
+
+<p><strong>Important:</strong> categories of CMS are currently not supported. You can use only main category.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
+
+<p>Install the module from the Backoffice (administration panel)</p>
+
+<p>In the modules tab, click on add a new module. Click on Browse to open the dialogue box letting you search your computer, select the file then validate the dialogue box. Finally click on Upload this module.</p>
+
+<h2>
+<a name="uninstallation" class="anchor" href="#uninstallation"><span class="octicon octicon-link"></span></a>UNINSTALLATION</h2>
+
+<p>Go to modules -&gt; Find and uninstall "CleanURL".</p>
+
+<p>Open folder /cache/
+-&gt; Remove "class_index.php"</p>
+
+<p>Go to back office -&gt; Preferences -&gt; SEO and URLs -&gt; Set userfriendly URL off -&gt; Save
+Go to back office -&gt; Preferences -&gt; SEO and URLs -&gt; Set userfriendly URL on -&gt; Save</p>
+
+<p>If you got any other override modules, you should now go to you back office, uninstall them, and reinstall them again to work correctly.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/Lebioda">Lebioda</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
