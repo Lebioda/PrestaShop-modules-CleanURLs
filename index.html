@@ -39,18 +39,31 @@
 
 <p>This version gives additional possibility to use templates of links to achieve links like below:</p>
 
-<ul>
-<li>domain.com/product</li>
-<li>domain.com/parent_categories/category</li>
-<li>domain.com/category</li>
-<li>domain.com/manufacturer</li>
-<li>domain.com/supplier</li>
-<li>domain.com/cms</li>
-</ul><p>Just use {rewrite} for: products, manufacturer, supplier, cms. For category you can use the same or {parent_categories:/}{rewrite}.</p>
+<hr><p>Only <code>{rewrite}</code> (without extension .html or .php, without any words before, 
+without '/' at the end) for eg.</p>
 
-<p><strong>Important:</strong> categories of CMS are currently not supported. You can use only main category.</p>
+<pre><code>* domain.com/product-link
+* domain.com/parent_categories/category-link
+* domain.com/category-link
+* domain.com/manufacturer-link
+* domain.com/supplier-link
+* domain.com/cms-link
+</code></pre>
 
-<h2>
+<p>Just use <code>{rewrite}</code> for: products, manufacturer, supplier, cms. 
+For category you can use the same or <code>{parent_categories:/}{rewrite}</code>.</p>
+
+<hr><p>If you need, you can add any additional words or <code>{any keyword}</code> before <code>/{rewrite}</code> for eg.</p>
+
+<pre><code>* domain.com/{manufacturer:/}product-link
+* domain.com/manufacturers/manufacturer-link
+* domain.com/suppliers/supplier-link
+* domain.com/cms/cms-link
+</code></pre>
+
+<hr><p><strong>Important:</strong> categories of CMS are currently not supported. You can use only main category.</p>
+
+<hr><h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
 
 <p>Download zip file from GitHub, unpack and pack only 'cleanurls' folder.</p>
