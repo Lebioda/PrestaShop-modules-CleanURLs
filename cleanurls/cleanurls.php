@@ -12,6 +12,7 @@
 * This code is provided as is without any warranty.
 * No promise of being safe or secure
 *
+*  @adapted by  mnwalker / AWcode
 *  @author      Ha!*!*y <ha99ys@gmail.com>
 *  @copyright   2012-2013 Ha!*!*y
 *  @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
@@ -24,9 +25,9 @@ class cleanurls extends Module
 	{
 		$this->name = 'cleanurls';
 		$this->tab = 'seo';
-		$this->version = '0.42.1';
+		$this->version = '0.6.0';
 		$this->need_instance = 0;
-		$this->author = 'ha!*!*y';
+		$this->author = 'AWcode';
 
 		parent::__construct();
 
@@ -45,21 +46,21 @@ class cleanurls extends Module
 				Go to back office -> Preferences -> SEO and URLs -> Set userfriendly URL on -> Save<br />
 			</div><br />';
 
-		$sql = 'SELECT * FROM `'._DB_PREFIX_.'product_lang`
+		$sql = 'SELECT id_lang, name, id_product, link_rewrite FROM `'._DB_PREFIX_.'product_lang`
 				WHERE `link_rewrite`
 					IN (SELECT `link_rewrite` FROM `'._DB_PREFIX_.'product_lang`
 					GROUP BY `link_rewrite`, `id_lang`
-					HAVING count(`link_rewrite`) > 1)';
+					HAVING count(`link_rewrite`) > 1) LIMIT 20';
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
 			$sql .= ' AND `id_shop` = '.(int)Shop::getContextShopID();
 		}
-
-		if ($results = (int)Db::getInstance()->ExecuteS($sql))
+		$results = Db::getInstance()->ExecuteS($sql);
+		if (count($results))
 		{
 			$output .= 'You need to fix duplicate URL entries<br/>';
-			foreach ($results AS $row)
+			foreach ($results as $row)
 			{
 				$language_info = $this->context->language->getLanguage($row['id_lang']);
 				$output .= $row['name'].' ('.$row['id_product'] .') - '. $row['link_rewrite'].'<br/>';
