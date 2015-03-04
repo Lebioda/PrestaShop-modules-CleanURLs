@@ -1,7 +1,9 @@
 [ABOUT]
 ===============================================================
 Adaptation of CleanURLs module originally created by Ha99y and modified by Lebioda and Lapy90
+
 https://github.com/Ha99y/PrestaShop-modules-CleanURLs
+
 http://lebioda.github.io/PrestaShop-modules-CleanURLs/
 
 CHANGES
