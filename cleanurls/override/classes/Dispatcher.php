@@ -117,11 +117,26 @@ class Dispatcher extends DispatcherCore
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
-			$sql .= ' AND `id_shop` = '.(int)Shop::getContextShopID();
+			$sql2 = ' AND `id_shop` = '.(int)Shop::getContextShopID();
 		}
 
-		$id_product = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
-			
+		$id_product = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+		
+		if(!$id_product){
+			$split = explode("-", $explode_product_link[$count-1], 2);
+			if(count($split) == 2 && is_numeric($split[0])){
+				$sql = 'SELECT `id_product`
+					FROM `'._DB_PREFIX_.'product_lang`
+					WHERE (`link_rewrite` = \''.$split[1].'\' OR `link_rewrite` = \''.str_replace(".html", "",$split[1]).'\') 
+					AND `id_product` = "'.$split[0].'" AND `id_lang` = '. Context::getContext()->language->id;
+				$redirect = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+				if($redirect){
+					$url = (($_SERVER['HTTPS'])?"https://":"http://") . $_SERVER['HTTP_HOST'] . str_replace($split[0]."-".$split[1], $split[1], $_SERVER['REQUEST_URI']);
+					Tools::redirect($url);
+				}
+			}
+		}
+				
 		return ($id_product > 0) ? true : false;
 	}
 	
@@ -141,10 +156,24 @@ class Dispatcher extends DispatcherCore
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
-			$sql .= ' AND `id_shop` = '.(int)Shop::getContextShopID();
+			$sql2 = ' AND `id_shop` = '.(int)Shop::getContextShopID();
 		}
 		
-		$id_category = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+		$id_category = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+		
+		if(!$id_category){
+			$split = explode("-", $categories[0], 2);
+			if(count($split) == 2 && is_numeric($split[0])){
+				$sql = 'SELECT `id_category` FROM `'._DB_PREFIX_.'category_lang`
+					WHERE `link_rewrite` = \''.$split[1].'\'
+					AND `id_category` = "'.$split[0].'" AND `id_lang` = '. Context::getContext()->language->id;
+				$redirect = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+				if($redirect){
+					$url = (($_SERVER['HTTPS'])?"https://":"http://") . $_SERVER['HTTP_HOST'] . str_replace($split[0]."-".$split[1], $split[1], $_SERVER['REQUEST_URI']);
+					Tools::redirect($url);
+				}
+			}
+		}
 					
 		return ($id_category > 0) ? true : false;
 	}
@@ -168,10 +197,27 @@ class Dispatcher extends DispatcherCore
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
-			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
+			$sql2 = ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
 		}
 
-		$id_cms = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+		$id_cms = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+		
+		if(!$id_cms){
+			$split = explode("-", $explode_cms_link[$count-1], 2);
+			if(count($split) == 2 && is_numeric($split[0])){
+				$sql = 'SELECT l.`id_cms`
+					FROM `'._DB_PREFIX_.'cms_lang` l
+					LEFT JOIN `'._DB_PREFIX_.'cms_shop` s ON (l.`id_cms` = s.`id_cms`)
+					WHERE l.`link_rewrite` = \''.$split[1].'\'
+					AND l.`id_cms` = "'.$split[0].'"';
+
+				$redirect = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+				if($redirect){
+					$url = (($_SERVER['HTTPS'])?"https://":"http://") . $_SERVER['HTTP_HOST'] . str_replace($split[0]."-".$split[1], $split[1], $_SERVER['REQUEST_URI']);
+					Tools::redirect($url);
+				}
+			}
+		}
 					
 		return ($id_cms > 0) ? true : false;
 	}
@@ -197,10 +243,27 @@ class Dispatcher extends DispatcherCore
 	
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
-			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
+			$sql2 = ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
 		}
 
-		$id_manufacturer = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+		$id_manufacturer = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+		
+		if(!$id_manufacturer){
+			$split = explode("-", $name_manufacturer, 2);
+			if(count($split) == 2 && is_numeric($split[0])){
+				$sql = 'SELECT m.`id_manufacturer`
+						FROM `'._DB_PREFIX_.'manufacturer` m
+						LEFT JOIN `'._DB_PREFIX_.'manufacturer_shop` s ON (m.`id_manufacturer` = s.`id_manufacturer`)
+						WHERE m.`name` LIKE \''.$split[1].'\'
+						AND m.`id_manufacturer` = "'.$split[0].'"';
+
+				$redirect = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+				if($redirect){
+					$url = (($_SERVER['HTTPS'])?"https://":"http://") . $_SERVER['HTTP_HOST'] . str_replace($split[0]."-".$split[1], $split[1], $_SERVER['REQUEST_URI']);
+					Tools::redirect($url);
+				}
+			}
+		}
 					
 		return ($id_manufacturer > 0) ? true : false;
 	}
@@ -226,10 +289,27 @@ class Dispatcher extends DispatcherCore
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
-			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
+			$sql2 = ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
 		}
 
-		$id_supplier = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+		$id_supplier = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+		
+		if(!$id_supplier){
+			$split = explode("-", $explode_supplier_link[$count-1], 2);
+			if(count($split) == 2 && is_numeric($split[0])){
+				$sql = 'SELECT sp.`id_supplier`
+						FROM `'._DB_PREFIX_.'supplier` sp
+						LEFT JOIN `'._DB_PREFIX_.'supplier_shop` s ON (sp.`id_supplier` = s.`id_supplier`)
+						WHERE sp.`name` LIKE \''.$split[1].'\'
+						AND sp.`id_supplier` = "'.$split[0].'"';
+
+				$redirect = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql.$sql2);
+				if($redirect){
+					$url = (($_SERVER['HTTPS'])?"https://":"http://") . $_SERVER['HTTP_HOST'] . str_replace($split[0]."-".$split[1], $split[1], $_SERVER['REQUEST_URI']);
+					Tools::redirect($url);
+				}
+			}
+		}
 					
 		return ($id_supplier > 0) ? true : false;
 	}
