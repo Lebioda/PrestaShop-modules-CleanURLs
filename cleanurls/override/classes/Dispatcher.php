@@ -113,7 +113,7 @@ class Dispatcher extends DispatcherCore
 		
 		$sql = 'SELECT `id_product`
 			FROM `'._DB_PREFIX_.'product_lang`
-			WHERE `link_rewrite` = \''.$explode_product_link[$count-1].'\' AND `id_lang` = '. Context::getContext()->language->id;
+			WHERE (`link_rewrite` = \''.$explode_product_link[$count-1].'\' OR `link_rewrite` = \''.str_replace(".html", "",$explode_product_link[$count-1]).'\') AND `id_lang` = '. Context::getContext()->language->id;
 
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
 		{
