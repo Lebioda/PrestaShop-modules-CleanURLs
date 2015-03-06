@@ -231,8 +231,13 @@ class Dispatcher extends DispatcherCore
 	public static function isManufacturerLink($short_link)
 	{
 		// check if any keyword
-		$explode_manufacturer_link = explode("/", $short_link);
+		$explode_manufacturer_link = explode("/", $short_link, 2);
+
 		$count = count($explode_manufacturer_link);
+		if($explode_manufacturer_link[$count-1] == ""){
+			unset($explode_manufacturer_link[$count-1]);
+			$count = count($explode_manufacturer_link);
+		}
 		
 		$name_manufacturer = str_replace('-', '%', $explode_manufacturer_link[$count-1]);
 
