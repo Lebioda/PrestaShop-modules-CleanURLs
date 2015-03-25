@@ -1,4 +1,22 @@
 <?php
+
+/**
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* It is available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+*
+* DISCLAIMER
+* This code is provided as is without any warranty.
+* No promise of being safe or secure
+*
+*  @author      ZiZuu.com <info@zizuu.com>
+*  @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  @source      https://github.com/ZiZuu-store/PrestaShop_module-CleanURLs
+*/
+
 class Dispatcher extends DispatcherCore
 {
 	/**
@@ -6,96 +24,96 @@ class Dispatcher extends DispatcherCore
 	 */
 	public $default_routes = array(
 		'supplier_rule' => array(
-			'controller' =>	'supplier',
-			'rule' =>		'supplier/{rewrite}/',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'supplier_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+			'controller' => 'supplier',
+			'rule'       => 'supplier/{rewrite}/',
+			'keywords'   => array(
+				'id'            => array('regexp' => '[0-9]+'),
+				'rewrite'       => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'supplier_rewrite'),
+				'meta_keywords' => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'    => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
 			),
 		),
 		'manufacturer_rule' => array(
 			'controller' =>	'manufacturer',
-			'rule' =>		'manufacturer/{rewrite}/',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'manufacturer_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+			'rule'       => 'manufacturer/{rewrite}/',
+			'keywords'   => array(
+				'id'            => array('regexp' => '[0-9]+'),
+				'rewrite'       => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'manufacturer_rewrite'),
+				'meta_keywords' => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'    => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
 			),
 		),
 		'cms_rule' => array(
 			'controller' =>	'cms',
-			'rule' =>		'info/{rewrite}',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'cms_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+			'rule'       =>	'info/{rewrite}',
+			'keywords'   => array(
+				'id'            => array('regexp' => '[0-9]+'),
+				'rewrite'       => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'cms_rewrite'),
+				'meta_keywords' => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'    => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
 			),
 		),
 		'cms_category_rule' => array(
 			'controller' =>	'cms',
-			'rule' =>		'info/{rewrite}/',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'cms_category_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+			'rule'       =>	'info/{rewrite}/',
+			'keywords'   => array(
+				'id'            => array('regexp' => '[0-9]+'),
+				'rewrite'       => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'cms_category_rewrite'),
+				'meta_keywords' => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'    => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
 			),
 		),
 		'module' => array(
 			'controller' =>	null,
-			'rule' =>		'module/{module}{/:controller}',
-			'keywords' => array(
-				'module' =>			array('regexp' => '[_a-zA-Z0-9_-]+', 'param' => 'module'),
-				'controller' =>		array('regexp' => '[_a-zA-Z0-9_-]+', 'param' => 'controller'),
+			'rule'       =>	'module/{module}{/:controller}',
+			'keywords'   => array(
+				'module'     =>	array('regexp' => '[_a-zA-Z0-9-]+', 'param' => 'module'),
+				'controller' => array('regexp' => '[_a-zA-Z0-9-]+', 'param' => 'controller'),
 			),
-			'params' => array(
+			'params'     => array(
 				'fc' => 'module',
 			),
 		),
 		'product_rule' => array(
 			'controller' =>	'product',
-			'rule' =>		'{category:/}{rewrite}.html',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'product_rewrite'),
-				'ean13' =>			array('regexp' => '[0-9\pL]*'),
-				'category' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'categories' =>		array('regexp' => '[/_a-zA-Z0-9-\pL]*'),
-				'reference' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'manufacturer' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'supplier' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'price' =>			array('regexp' => '[0-9\.,]*'),
-				'tags' =>			array('regexp' => '[a-zA-Z0-9-\pL]*'),
+			'rule'       => '{categories:/}{rewrite}',
+			'keywords'   => array(
+				'id'            => array('regexp' => '[0-9]+'),
+				'rewrite'       => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'product_rewrite'),
+				'ean13'         => array('regexp' => '[0-9\pL]*'),
+				'category'      => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'categories'    => array('regexp' => '[/_a-zA-Z0-9\pL-]*'),
+				'reference'     => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_keywords' => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'    => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'manufacturer'  => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'supplier'      => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'price'         => array('regexp' => '[0-9\.,]*'),
+				'tags'          => array('regexp' => '[a-zA-Z0-9\pL-]*'),
 			),
 		),
 		'layered_rule' => array(
 			'controller' =>	'category',
-			'rule' =>		'{rewrite}/filter{selected_filters}',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
+			'rule'       => '{rewrite}/filter/{selected_filters}',
+			'keywords'   => array(
+				'id'               => array('regexp' => '[0-9]+'),
 				/* Selected filters is used by the module blocklayered */
-				'selected_filters' =>		array('regexp' => '.*', 'param' => 'selected_filters'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'category_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+				'selected_filters' => array('regexp' => '.*', 'param' => 'selected_filters'),
+				'rewrite'          => array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'category_rewrite'),
+				'meta_keywords'    => array('regexp' => '[_a-zA-Z0-9-\pL]*'),
+				'meta_title'       => array('regexp' => '[_a-zA-Z0-9-\pL]*'),
 			),
 		),
 		'category_rule' => array(
 			'controller' =>	'category',
-			'rule' =>		'{parent_categories:/}{rewrite}/',
-			'keywords' => array(
-				'id' =>				array('regexp' => '[0-9]+'),
-				'rewrite' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*', 'param' => 'category_rewrite'),
-				'meta_keywords' =>	array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'meta_title' =>		array('regexp' => '[_a-zA-Z0-9-\pL]*'),
-				'parent_categories' =>		array('regexp' => '[/_a-zA-Z0-9-\pL]*'),
-				),
+			'rule'       =>		'{parent_categories:/}{rewrite}/',
+			'keywords'   => array(
+				'id'                => array('regexp' => '[0-9]+'),
+				'rewrite'           => array('regexp' => '[_a-zA-Z0-9\pL\pS-]*', 'param' => 'category_rewrite'),
+				'meta_keywords'     => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'meta_title'        => array('regexp' => '[_a-zA-Z0-9\pL-]*'),
+				'parent_categories' => array('regexp' => '[/_a-zA-Z0-9\pL-]*'),
+			),
 		),
 	);
 	
@@ -108,21 +126,18 @@ class Dispatcher extends DispatcherCore
 	public static function isProductLink($short_link)
 	{
 		// check if any keyword
-		$explode_product_link = explode("/", $short_link);
+		$explode_product_link = explode('/', $short_link);
 		$count = count($explode_product_link);
 		
 		$sql = 'SELECT `id_product`
 			FROM `'._DB_PREFIX_.'product_lang`
-			WHERE `link_rewrite` = \''.$explode_product_link[$count-1].'\' AND `id_lang` = '. Context::getContext()->language->id;
-
+			WHERE `link_rewrite` = \''.pSQL($explode_product_link[$count-1]).'\' AND `id_lang` = '.(int)Context::getContext()->language->id;
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
-		{
 			$sql .= ' AND `id_shop` = '.(int)Shop::getContextShopID();
-		}
 
 		$id_product = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
 			
-		return ($id_product > 0) ? true : false;
+		return ($id_product > 0);
 	}
 	
 	/**
@@ -134,19 +149,16 @@ class Dispatcher extends DispatcherCore
 	public static function isCategoryLink($short_link)
 	{
 		// check if parent categories
-		$categories = explode("/", $short_link);
+		$categories = explode('/', $short_link);
 		
 		$sql = 'SELECT `id_category` FROM `'._DB_PREFIX_.'category_lang`
-				WHERE `link_rewrite` = \''.$categories[0].'\' AND `id_lang` = '. Context::getContext()->language->id;
-
+				WHERE `link_rewrite` = \''.pSQL($categories[0]).'\' AND `id_lang` = '.(int)Context::getContext()->language->id;
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
-		{
 			$sql .= ' AND `id_shop` = '.(int)Shop::getContextShopID();
-		}
 		
 		$id_category = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
 					
-		return ($id_category > 0) ? true : false;
+		return ($id_category > 0);
 	}
 
 	/**
@@ -158,22 +170,19 @@ class Dispatcher extends DispatcherCore
 	public static function isCmsLink($short_link)
 	{
 		// check if any keyword
-		$explode_cms_link = explode("/", $short_link);
+		$explode_cms_link = explode('/', $short_link);
 		$count = count($explode_cms_link);
 	
 		$sql = 'SELECT l.`id_cms`
 			FROM `'._DB_PREFIX_.'cms_lang` l
 			LEFT JOIN `'._DB_PREFIX_.'cms_shop` s ON (l.`id_cms` = s.`id_cms`)
-			WHERE l.`link_rewrite` = \''.$explode_cms_link[$count-1].'\'';
-
+			WHERE l.`link_rewrite` = \''.pSQL($explode_cms_link[$count-1]).'\'';
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
-		{
 			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
-		}
 
 		$id_cms = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
 					
-		return ($id_cms > 0) ? true : false;
+		return ($id_cms > 0);
 	}
 	
 	/**
@@ -185,24 +194,21 @@ class Dispatcher extends DispatcherCore
 	public static function isManufacturerLink($short_link)
 	{
 		// check if any keyword
-		$explode_manufacturer_link = explode("/", $short_link);
+		$explode_manufacturer_link = explode('/', $short_link);
 		$count = count($explode_manufacturer_link);
 		
-		$name_manufacturer = str_replace('-', '%', $explode_manufacturer_link[$count-1]);
+		$manufacturer = str_replace('-', '%', $explode_manufacturer_link[$count-1]);
 
 		$sql = 'SELECT m.`id_manufacturer`
 			FROM `'._DB_PREFIX_.'manufacturer` m
 			LEFT JOIN `'._DB_PREFIX_.'manufacturer_shop` s ON (m.`id_manufacturer` = s.`id_manufacturer`)
-			WHERE m.`name` LIKE \''.$name_manufacturer.'\'';
-	
+			WHERE m.`name` LIKE \''.pSQL($manufacturer).'\'';
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
-		{
 			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
-		}
 
 		$id_manufacturer = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
 					
-		return ($id_manufacturer > 0) ? true : false;
+		return ($id_manufacturer > 0);
 	}
 
 	/**
@@ -214,24 +220,21 @@ class Dispatcher extends DispatcherCore
 	public static function isSupplierLink($short_link)
 	{
 		// check if any keyword
-		$explode_supplier_link = explode("/", $short_link);
+		$explode_supplier_link = explode('/', $short_link);
 		$count = count($explode_supplier_link);
 		
-		$name_supplier = str_replace('-', '%', $explode_supplier_link[$count-1]);
+		$supplier = str_replace('-', '%', $explode_supplier_link[$count-1]);
 
 		$sql = 'SELECT sp.`id_supplier`
 			FROM `'._DB_PREFIX_.'supplier` sp
 			LEFT JOIN `'._DB_PREFIX_.'supplier_shop` s ON (sp.`id_supplier` = s.`id_supplier`)
-			WHERE sp.`name` LIKE \''.$name_supplier.'\'';
-
+			WHERE sp.`name` LIKE \''.pSQL($supplier).'\'';
 		if (Shop::isFeatureActive() && Shop::getContext() == Shop::CONTEXT_SHOP)
-		{
 			$sql .= ' AND s.`id_shop` = '.(int)Shop::getContextShopID();
-		}
 
 		$id_supplier = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
 					
-		return ($id_supplier > 0) ? true : false;
+		return ($id_supplier > 0);
 	}
 
 	/**
@@ -242,14 +245,15 @@ class Dispatcher extends DispatcherCore
 	public function getController($id_shop = null)
 	{	
 		if (defined('_PS_ADMIN_DIR_'))
-			$_GET['controllerUri'] = Tools::getvalue('controller');		
+			$_GET['controllerUri'] = Tools::getvalue('controller');
+
 		if ($this->controller)
 		{
 			$_GET['controller'] = $this->controller;
 			return $this->controller;
 		}
 
-		if ($id_shop === null)
+		if (null === $id_shop)
 			$id_shop = (int)Context::getContext()->shop->id;
 
 		$controller = Tools::getValue('controller');
@@ -259,7 +263,7 @@ class Dispatcher extends DispatcherCore
 			$controller = $m[1];
 			if (isset($_GET['controller']))
 				$_GET[$m[2]] = $m[3];
-			else if (isset($_POST['controller']))
+			elseif (isset($_POST['controller']))
 				$_POST[$m[2]] = $m[3];
 		}
 
@@ -282,18 +286,13 @@ class Dispatcher extends DispatcherCore
 
 				if (isset($this->routes[$id_shop][Context::getContext()->language->id]))
 				{
-//					$firephp = FirePHP::getInstance(true);
 					$findRoute = array();
 					
 					// check, whether request_uri is template or not
 					foreach ($this->routes[$id_shop][Context::getContext()->language->id] as $route)
 					{
-//						$firephp->log($route['rule'], 'Rule');
-						
 						if (preg_match($route['regexp'], $this->request_uri, $m))
 						{
-//							$firephp->log('RegExp Pass!');
-							
 							$isTemplate = false;
 							
 							switch($route['controller'])
@@ -301,10 +300,8 @@ class Dispatcher extends DispatcherCore
 								case 'supplier':
 								case 'manufacturer':
 									// these two can be processed in normal way and also as template
-									if(strpos($route['rule'], '{') !== false)
-									{
+									if (false !== strpos($route['rule'], '{'))
 										$isTemplate = true;
-									}
 									break;
 									
 								case 'cms':
@@ -313,16 +310,12 @@ class Dispatcher extends DispatcherCore
 									break;
 								case 'category':
 									// category can be processed in two ways
-									if(strpos($route['rule'], 'selected_filters') === false)
-									{
+									if (false === strpos($route['rule'], 'selected_filters'))
 										$isTemplate = true;
-									}
 									break;
 							}
 							
-//							$firephp->log((int)$isTemplate, 'Template');
-							
-							if($isTemplate == false)
+							if (!$isTemplate)
 							{
 								$findRoute = $route;
 								break;
@@ -331,19 +324,16 @@ class Dispatcher extends DispatcherCore
 					}
 					
 					// if route is not found, we have to find rewrite link in database
-					if(empty($findRoute))
+					if (empty($findRoute))
 					{
-						$req_url = substr($this->request_uri, 1); 		// remove '/' from begining
-						$req_url = explode("?", $req_url);				// remove all after '?'
-						$short_link = $req_url[0];
+						// get the path from requested URI, and remove "/" at the beginning
+						$short_link = ltrim(parse_url($this->request_uri, PHP_URL_PATH), '/');
 						
-//						$firephp->log($short_link, 'Short Link');
-						
-						if(!Dispatcher::isProductLink($short_link))
-							if(!Dispatcher::isCategoryLink($short_link))
-								if(!Dispatcher::isCmsLink($short_link))
-									if(!Dispatcher::isManufacturerLink($short_link))
-										if(!Dispatcher::isSupplierLink($short_link))
+						if (!Dispatcher::isProductLink($short_link))
+							if (!Dispatcher::isCategoryLink($short_link))
+								if (!Dispatcher::isCmsLink($short_link))
+									if (!Dispatcher::isManufacturerLink($short_link))
+										if (!Dispatcher::isSupplierLink($short_link))
 											{}
 										else
 											$findRoute = $this->routes[$id_shop][Context::getContext()->language->id]['supplier_rule'];
@@ -357,10 +347,8 @@ class Dispatcher extends DispatcherCore
 							$findRoute = $this->routes[$id_shop][Context::getContext()->language->id]['product_rule'];
 					}
 
-					if(!empty($findRoute))
+					if (!empty($findRoute))
 					{
-//						$firephp->log($findRoute['rule'], 'Find Route Template');
-						
 						if (preg_match($findRoute['regexp'], $this->request_uri, $m))
 						{
 							// Route found ! Now fill $_GET with parameters of uri
@@ -392,12 +380,12 @@ class Dispatcher extends DispatcherCore
 				$controller = $this->default_controller;
 			$this->controller = $controller;
 		}
-		// Default mode, take controller from url
-		else
+		else // Default mode, take controller from url
 			$this->controller = $controller;
 
 		$this->controller = str_replace('-', '', $this->controller);
 		$_GET['controller'] = $this->controller;
+
 		return $this->controller;
 	}
 }

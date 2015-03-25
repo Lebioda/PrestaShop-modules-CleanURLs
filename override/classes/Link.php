@@ -1,6 +1,36 @@
 <?php
+
+/**
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* It is available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+*
+* DISCLAIMER
+* This code is provided as is without any warranty.
+* No promise of being safe or secure
+*
+*  @author	  ZiZuu.com <info@zizuu.com>
+*  @license	 http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  @source	  https://github.com/ZiZuu-store/PrestaShop_module-CleanURLs
+*/
+
 class Link extends LinkCore
 {
+	public function __construct($protocol_link = null, $protocol_content = null)
+	{
+		parent::__construct($protocol_link, $protocol_content);
+
+		/* TODO
+		 * add a configuration switch to hide or show the Home category
+
+		// Re-add Home category
+		Link::$category_disable_rewrite = array_diff(Link::$category_disable_rewrite, array(Configuration::get('PS_HOME_CATEGORY')));
+		*/
+	}
+
 	/**
 	 * Create a link to a category
 	 *
@@ -10,15 +40,12 @@ class Link extends LinkCore
 	 * @param string $selected_filters Url parameter to autocheck filters of the module blocklayered
 	 * @return string
 	 */
-	 //MODIFIED BY LAPY90
-	public function getCategoryLink($category, $alias = NULL, $id_lang = NULL, $selected_filters = NULL, $id_shop = NULL)
+	public function getCategoryLink($category, $alias = null, $id_lang = null, $selected_filters = null, $id_shop = null, $relative_protocol = false)
 	{
-	
-		$dispatcher = Dispatcher::getInstance();
-		
 		if (!$id_lang)
 			$id_lang = Context::getContext()->language->id;
-		$url = _PS_BASE_URL_.__PS_BASE_URI__.$this->getLangLink($id_lang);
+
+		$url = $this->getBaseLink($id_shop, null, $relative_protocol).$this->getLangLink($id_lang, null, $id_shop);
 
 		if (!is_object($category))
 			$category = new Category($category, $id_lang);
@@ -27,8 +54,8 @@ class Link extends LinkCore
 		$params = array();
 		$params['id'] = $category->id;
 		$params['rewrite'] = (!$alias) ? $category->link_rewrite : $alias;
-		$params['meta_keywords'] =	Tools::str2url($category->meta_keywords);
-		$params['meta_title'] = Tools::str2url($category->meta_title);
+		$params['meta_keywords'] = Tools::str2url($category->getFieldByLang('meta_keywords'));
+		$params['meta_title'] = Tools::str2url($category->getFieldByLang('meta_title'));
 
 		// Selected filters is used by the module blocklayered
 		$selected_filters = is_null($selected_filters) ? '' : $selected_filters;
@@ -41,23 +68,30 @@ class Link extends LinkCore
 			$params['selected_filters'] = $selected_filters;
 		}
 
-		
-	
+		$dispatcher = Dispatcher::getInstance();
+
+		// XXX: replace 'category_rule' with $rule ? 
 		if ($dispatcher->hasKeyword('category_rule', $id_lang, 'parent_categories'))
 		{
-			//RETRIEVING ALL THE PARENT CATEGORIES
+			// Retrieve all parent categories
 			$cats = array();
-			foreach ($category->getParentsCategories() as $cat)
-				if (!in_array($cat['id_category'], array(1, 2, $category->id)))//remove root, home and current category from the URL
-					$cats[] = $cat['link_rewrite']; //THE CATEGORIES ARE BEING ASSIGNED IN THE WRONG ORDER (?)
-			$params['parent_categories'] = implode('/', array_reverse($cats));//ADD THE URL SLASHES TO THE CATEGORIES IN REVERSE ORDER
+			foreach ($category->getParentsCategories($id_lang) as $cat)
+			{
+				self::$category_disable_rewrite[] = $category->id;
+
+				// remove root and current category from the URL
+				if (!in_array($cat['id_category'], self::$category_disable_rewrite)) {
+					$cats[] = $cat['link_rewrite'];
+				}
+			}
+			// add the URL slashes among categories, in reverse order
+			$params['parent_categories'] = implode('/', array_reverse($cats));
 		}
 		
-		return $url.Dispatcher::getInstance()->createUrl($rule, $id_lang, $params, $this->allow);
-
+		return $url.$dispatcher->createUrl($rule, $id_lang, $params, $this->allow, '', $id_shop);
 	}
 
-	
+
 	/**
 	 * Get pagination link
 	 *
@@ -70,7 +104,7 @@ class Link extends LinkCore
 	 */
 	public function getPaginationLink($type, $id_object, $nb = false, $sort = false, $pagination = false, $array = false)
 	{
-		// If no parameter $type, try to get it by using the controller name
+		// if no parameter $type, try to get it by using the controller name
 		if (!$type && !$id_object)
 		{
 			$method_name = 'get'.Dispatcher::getInstance()->getController().'Link';
@@ -99,16 +133,16 @@ class Link extends LinkCore
 
 		foreach ($_GET as $k => $value)
 		{
-			// Ha!*!*y strip var like category_rewrite from url
+			// strip var of the form "*_rewrite" from url
 			if ($k != 'id_'.$type && $k != $type.'_rewrite' && $k != 'controller')
 			{
 				if (Configuration::get('PS_REWRITING_SETTINGS') && ($k == 'isolang' || $k == 'id_lang'))
 					continue;
+
 				$if_nb = (!$nb || ($nb && !in_array($k, $vars_nb)));
 				$if_sort = (!$sort || ($sort && !in_array($k, $vars_sort)));
 				$if_pagination = (!$pagination || ($pagination && !in_array($k, $vars_pagination)));
 				if ($if_nb && $if_sort && $if_pagination)
-				{
 					if (!is_array($value))
 						$vars[urlencode($k)] = $value;
 					else
@@ -119,7 +153,6 @@ class Link extends LinkCore
 							$vars[urldecode($data[0])] = $data[1];
 						}
 					}
-				}
 			}
 		}
 
@@ -136,7 +169,7 @@ class Link extends LinkCore
 			
 		if (!$this->allow == 1)
 			$vars['controller'] = Dispatcher::getInstance()->getController();
+
 		return $vars;
 	}
-
 }
